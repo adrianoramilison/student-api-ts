@@ -13,22 +13,25 @@ export interface StudentRepository {
     remove(id: number): boolean;
 }
 
-export class InMemoryStudentRepository implements StudentRepository {
+class InMemoryStudentRepository implements StudentRepository {
+
     private students: Student[] = [
         {
             id: 1,
             lastName: 'Rakoto',
             firstName: 'Adri',
             email: 'adri@gmail.com',
-            major: 'Computer Science'
+            major: 'Computer Science',
+            state: 'ACTIVE'
         },
         {
             id: 2,
             lastName: 'Rabe',
             firstName: 'Fara',
             email: 'fara@gmail.com',
-            major: 'Networking'
-        },
+            major: 'Networking',
+            state: 'ACTIVE'
+        }
     ];
 
     private nextId = 3;
@@ -38,81 +41,56 @@ export class InMemoryStudentRepository implements StudentRepository {
     }
 
     findById(id: number): Student | undefined {
-        return this.students.find((s) => s.id === id);
+        return this.students.find(student => student.id === id);
     }
 
-    create({
-               lastName,
-               firstName,
-               email,
-               major
-           }: StudentInput): Student {
-        const newStudent: Student = {
+    create(data: StudentInput): Student {
+        const student: Student = {
             id: this.nextId++,
-            lastName,
-            firstName,
-            email,
-            major
+            ...data
         };
 
-        this.students.push(newStudent);
-        return newStudent;
-    }
-
-    replace(
-        id: number,
-        {
-            lastName,
-            firstName,
-            email,
-            major
-        }: StudentInput
-    ): Student | null {
-        const student = this.findById(id);
-
-        if (!student) return null;
-
-        student.lastName = lastName;
-        student.firstName = firstName;
-        student.email = email;
-        student.major = major;
-
+        this.students.push(student);
         return student;
     }
 
-    update(
-        id: number,
-        fields: StudentPartialInput
-    ): Student | null {
-        const student = this.findById(id);
+    replace(id: number, data: StudentInput): Student | null {
+        const index = this.students.findIndex(student => student.id === id);
 
-        if (!student) return null;
-
-        if (fields.lastName !== undefined) {
-            student.lastName = fields.lastName;
+        if (index === -1) {
+            return null;
         }
 
-        if (fields.firstName !== undefined) {
-            student.firstName = fields.firstName;
-        }
+        const student: Student = {
+            id,
+            ...data
+        };
 
-        if (fields.email !== undefined) {
-            student.email = fields.email;
-        }
-
-        if (fields.major !== undefined) {
-            student.major = fields.major;
-        }
-
+        this.students[index] = student;
         return student;
+    }
+
+    update(id: number, data: StudentPartialInput): Student | null {
+        const index = this.students.findIndex(student => student.id === id);
+
+        if (index === -1) {
+            return null;
+        }
+
+        this.students[index] = {
+            ...this.students[index],
+            ...data
+        };
+
+        return this.students[index];
     }
 
     remove(id: number): boolean {
-        const index = this.students.findIndex(
-            (s) => s.id === id
-        );
+        const index = this.students.findIndex(student => student.id === id);
 
-        if (index === -1) return false;
+        if (index === -1) {
+            return false;
+        }
 
         this.students.splice(index, 1);
         return true;

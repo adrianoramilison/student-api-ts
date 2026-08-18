@@ -2,7 +2,8 @@ import { studentRepository } from '../repositories/StudentRepository';
 import {
     Student,
     StudentInput,
-    StudentPartialInput
+    StudentPartialInput,
+    StudentState
 } from '../models/StudentModel';
 import { ApiError } from '../utils/ApiError';
 
@@ -14,17 +15,33 @@ const validateEmail = (email: string): void => {
     }
 };
 
-const validateStudentData = (data: StudentInput): void => {
-    const { lastName, firstName, email, major } = data;
-
-    if (!lastName || !firstName || !email || !major) {
+const validateState = (state: string): void => {
+    if (state !== 'ACTIVE' && state !== 'INACTIVE') {
         throw new ApiError(
             400,
-            'lastName, firstName, email and major are required'
+            'state must be ACTIVE or INACTIVE'
+        );
+    }
+};
+
+const validateStudentData = (data: StudentInput): void => {
+    const {
+        lastName,
+        firstName,
+        email,
+        major,
+        state
+    } = data;
+
+    if (!lastName || !firstName || !email || !major || !state) {
+        throw new ApiError(
+            400,
+            'lastName, firstName, email, major and state are required'
         );
     }
 
     validateEmail(email);
+    validateState(state);
 };
 
 const getAll = (): Student[] => {
@@ -69,12 +86,21 @@ const update = (
     id: number,
     data: StudentPartialInput
 ): Student => {
+
     if (data.email !== undefined) {
         if (!data.email) {
             throw new ApiError(400, 'Email cannot be empty');
         }
 
         validateEmail(data.email);
+    }
+
+    if (data.state !== undefined) {
+        if (!data.state) {
+            throw new ApiError(400, 'State cannot be empty');
+        }
+
+        validateState(data.state);
     }
 
     const student = studentRepository.update(id, data);
