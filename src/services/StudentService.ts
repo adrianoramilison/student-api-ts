@@ -2,8 +2,7 @@ import { studentRepository } from '../repositories/StudentRepository';
 import {
     Student,
     StudentInput,
-    StudentPartialInput,
-    StudentState
+    StudentPartialInput
 } from '../models/StudentModel';
 import { ApiError } from '../utils/ApiError';
 
@@ -44,12 +43,12 @@ const validateStudentData = (data: StudentInput): void => {
     validateState(state);
 };
 
-const getAll = (): Student[] => {
-    return studentRepository.findAll();
+const getAll = async (): Promise<Student[]> => {
+    return await studentRepository.findAll();
 };
 
-const getById = (id: number): Student => {
-    const student = studentRepository.findById(id);
+const getById = async (id: number): Promise<Student> => {
+    const student = await studentRepository.findById(id);
 
     if (!student) {
         throw new ApiError(
@@ -61,16 +60,20 @@ const getById = (id: number): Student => {
     return student;
 };
 
-const create = (data: StudentInput): Student => {
+const create = async (data: StudentInput): Promise<Student> => {
     validateStudentData(data);
 
-    return studentRepository.create(data);
+    return await studentRepository.create(data);
 };
 
-const replace = (id: number, data: StudentInput): Student => {
+const replace = async (
+    id: number,
+    data: StudentInput
+): Promise<Student> => {
+
     validateStudentData(data);
 
-    const student = studentRepository.replace(id, data);
+    const student = await studentRepository.replace(id, data);
 
     if (!student) {
         throw new ApiError(
@@ -82,10 +85,10 @@ const replace = (id: number, data: StudentInput): Student => {
     return student;
 };
 
-const update = (
+const update = async (
     id: number,
     data: StudentPartialInput
-): Student => {
+): Promise<Student> => {
 
     if (data.email !== undefined) {
         if (!data.email) {
@@ -103,7 +106,7 @@ const update = (
         validateState(data.state);
     }
 
-    const student = studentRepository.update(id, data);
+    const student = await studentRepository.update(id, data);
 
     if (!student) {
         throw new ApiError(
@@ -115,8 +118,8 @@ const update = (
     return student;
 };
 
-const remove = (id: number): void => {
-    const deleted = studentRepository.remove(id);
+const remove = async (id: number): Promise<void> => {
+    const deleted = await studentRepository.remove(id);
 
     if (!deleted) {
         throw new ApiError(
