@@ -33,12 +33,14 @@ const register = async (
 
         const user = await userRepository.create({
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            role: 'USER'
         });
 
         res.status(201).json({
             id: user.id,
-            email: user.email
+            email: user.email,
+            role: user.role
         });
 
     } catch (err) {

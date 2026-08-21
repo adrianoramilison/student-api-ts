@@ -1,14 +1,9 @@
 import { Router } from 'express';
 import studentController from '../controllers/StudentController';
-import authenticate from '../middlewares/authenticate';
+import authenticate from '../security/authMiddleware';
+import authorize from '../security/authorize';
 
 const router = Router();
-
-router.get(
-    '/statistics',
-    authenticate,
-    studentController.getStatistics
-);
 
 router.get(
     '/',
@@ -25,24 +20,28 @@ router.get(
 router.post(
     '/',
     authenticate,
+    authorize('ADMIN'),
     studentController.create
 );
 
 router.put(
     '/:id',
     authenticate,
+    authorize('ADMIN'),
     studentController.replace
 );
 
 router.patch(
     '/:id',
     authenticate,
+    authorize('ADMIN'),
     studentController.update
 );
 
 router.delete(
     '/:id',
     authenticate,
+    authorize('ADMIN'),
     studentController.remove
 );
 

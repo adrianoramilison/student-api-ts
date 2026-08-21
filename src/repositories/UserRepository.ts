@@ -10,7 +10,7 @@ class PostgreSQLUserRepository implements UserRepository {
 
     async findByEmail(email: string): Promise<User | undefined> {
         const result = await pool.query(
-            `SELECT id, email, password
+            `SELECT id, email, password, role
              FROM users
              WHERE email = $1`,
             [email]
@@ -21,10 +21,10 @@ class PostgreSQLUserRepository implements UserRepository {
 
     async create(data: UserInput): Promise<User> {
         const result = await pool.query(
-            `INSERT INTO users (email, password)
-             VALUES ($1, $2)
-             RETURNING id, email, password`,
-            [data.email, data.password]
+            `INSERT INTO users (email, password, role)
+             VALUES ($1, $2, $3)
+             RETURNING id, email, password, role`,
+            [data.email, data.password, data.role]
         );
 
         return result.rows[0];
