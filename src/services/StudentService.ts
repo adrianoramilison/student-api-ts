@@ -60,7 +60,10 @@ const getById = async (id: number): Promise<Student> => {
     return student;
 };
 
-const create = async (data: StudentInput): Promise<Student> => {
+const create = async (
+    data: StudentInput
+): Promise<Student> => {
+
     validateStudentData(data);
 
     return await studentRepository.create(data);
@@ -73,7 +76,10 @@ const replace = async (
 
     validateStudentData(data);
 
-    const student = await studentRepository.replace(id, data);
+    const student = await studentRepository.replace(
+        id,
+        data
+    );
 
     if (!student) {
         throw new ApiError(
@@ -91,22 +97,33 @@ const update = async (
 ): Promise<Student> => {
 
     if (data.email !== undefined) {
+
         if (!data.email) {
-            throw new ApiError(400, 'Email cannot be empty');
+            throw new ApiError(
+                400,
+                'Email cannot be empty'
+            );
         }
 
         validateEmail(data.email);
     }
 
     if (data.state !== undefined) {
+
         if (!data.state) {
-            throw new ApiError(400, 'State cannot be empty');
+            throw new ApiError(
+                400,
+                'State cannot be empty'
+            );
         }
 
         validateState(data.state);
     }
 
-    const student = await studentRepository.update(id, data);
+    const student = await studentRepository.update(
+        id,
+        data
+    );
 
     if (!student) {
         throw new ApiError(
@@ -119,6 +136,7 @@ const update = async (
 };
 
 const remove = async (id: number): Promise<void> => {
+
     const deleted = await studentRepository.remove(id);
 
     if (!deleted) {
@@ -129,11 +147,16 @@ const remove = async (id: number): Promise<void> => {
     }
 };
 
+const getStatistics = async () => {
+    return await studentRepository.getStatistics();
+};
+
 export default {
     getAll,
     getById,
     create,
     replace,
     update,
-    remove
+    remove,
+    getStatistics
 };
