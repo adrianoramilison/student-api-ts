@@ -1,4 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
+import { UserRole } from '../models/UserModel';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -9,11 +10,13 @@ if (!JWT_SECRET) {
 export interface JwtPayload {
     userId: number;
     email: string;
+    role: UserRole;
 }
 
 export const generateToken = (
     userId: number,
-    email: string
+    email: string,
+    role: UserRole
 ): string => {
 
     const options: SignOptions = {
@@ -23,7 +26,8 @@ export const generateToken = (
     return jwt.sign(
         {
             userId,
-            email
+            email,
+            role
         },
         JWT_SECRET,
         options

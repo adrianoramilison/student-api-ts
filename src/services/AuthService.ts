@@ -36,7 +36,11 @@ const login = async (
         );
     }
 
-    return generateToken(user.id, user.email);
+    return generateToken(
+        user.id,
+        user.email,
+        user.role
+    );
 };
 
 export default {
