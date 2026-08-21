@@ -1,9 +1,9 @@
-import { studentRepository } from '../repositories/StudentRepository';
+import { studentRepository } from '../repositories/studentRepository';
 import {
     Student,
     StudentInput,
     StudentPartialInput
-} from '../models/StudentModel';
+} from '../models/studentModel';
 import { ApiError } from '../utils/ApiError';
 
 const validateEmail = (email: string): void => {

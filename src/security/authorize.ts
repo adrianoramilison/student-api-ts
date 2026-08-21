@@ -1,5 +1,5 @@
 import { Response, NextFunction } from 'express';
-import { UserRole } from '../models/UserModel';
+import { UserRole } from '../models/userModel';
 import { ApiError } from '../utils/ApiError';
 import { AuthenticatedRequest } from './authMiddleware';
 

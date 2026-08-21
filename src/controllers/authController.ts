@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
-import authService from '../services/AuthService';
-import { userRepository } from '../repositories/UserRepository';
+import authService from '../services/authService';
+import { userRepository } from '../repositories/userRepository';
 import { ApiError } from '../utils/ApiError';
 
 const register = async (

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import studentService from '../services/StudentService';
+import studentService from '../services/studentService';
 import {
     StudentInput,
     StudentPartialInput
-} from '../models/StudentModel';
+} from '../models/studentModel';
 
 const getAll = async (
     req: Request,
