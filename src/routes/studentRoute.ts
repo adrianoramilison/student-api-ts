@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import studentController from '../controllers/StudentController';
+import studentController from '../controllers/studentController';
 import authenticate from '../security/authMiddleware';
 import authorize from '../security/authorize';
 

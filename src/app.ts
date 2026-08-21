@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { ApiError } from './utils/ApiError';
 import errorHandler from './middlewares/errorHandler';
-import studentRoutes from './routes/StudentRoute';
-import authRoutes from './routes/AuthRoute';
+import studentRoutes from './routes/studentRoute';
+import authRoutes from './routes/authRoute';
 
 const app = express();
 

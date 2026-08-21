@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from './jwt';
 import { ApiError } from '../utils/ApiError';
-import { UserRole } from '../models/UserModel';
+import { UserRole } from '../models/userModel';
 
 export interface AuthenticatedRequest extends Request {
     user?: {

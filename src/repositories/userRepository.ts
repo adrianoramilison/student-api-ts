@@ -1,5 +1,5 @@
 import { pool } from '../config/database';
-import { User, UserInput } from '../models/UserModel';
+import { User, UserInput } from '../models/userModel';
 
 export interface UserRepository {
     findByEmail(email: string): Promise<User | undefined>;

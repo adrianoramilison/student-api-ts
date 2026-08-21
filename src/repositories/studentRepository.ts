@@ -3,7 +3,7 @@ import {
     Student,
     StudentInput,
     StudentPartialInput
-} from '../models/StudentModel';
+} from '../models/studentModel';
 
 export interface StudentStatistics {
     total: number;

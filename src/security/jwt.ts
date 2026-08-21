@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { UserRole } from '../models/UserModel';
+import { UserRole } from '../models/userModel';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
