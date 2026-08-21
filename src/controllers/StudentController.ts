@@ -1,15 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import studentService from '../services/StudentService';
-import { StudentInput, StudentPartialInput } from '../models/StudentModel';
+import {
+    StudentInput,
+    StudentPartialInput
+} from '../models/StudentModel';
 
 const getAll = async (
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
         const students = await studentService.getAll();
+
         res.status(200).json(students);
+
     } catch (err) {
         next(err);
     }
@@ -20,9 +26,14 @@ const getById = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
-        const student = await studentService.getById(Number(req.params.id));
+        const student = await studentService.getById(
+            Number(req.params.id)
+        );
+
         res.status(200).json(student);
+
     } catch (err) {
         next(err);
     }
@@ -33,9 +44,14 @@ const create = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
-        const student = await studentService.create(req.body);
+        const student = await studentService.create(
+            req.body
+        );
+
         res.status(201).json(student);
+
     } catch (err) {
         next(err);
     }
@@ -46,6 +62,7 @@ const replace = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
         const student = await studentService.replace(
             Number(req.params.id),
@@ -53,6 +70,7 @@ const replace = async (
         );
 
         res.status(200).json(student);
+
     } catch (err) {
         next(err);
     }
@@ -63,6 +81,7 @@ const update = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
         const student = await studentService.update(
             Number(req.params.id),
@@ -70,6 +89,7 @@ const update = async (
         );
 
         res.status(200).json(student);
+
     } catch (err) {
         next(err);
     }
@@ -80,9 +100,31 @@ const remove = async (
     res: Response,
     next: NextFunction
 ): Promise<void> => {
+
     try {
-        await studentService.remove(Number(req.params.id));
+        await studentService.remove(
+            Number(req.params.id)
+        );
+
         res.status(204).send();
+
+    } catch (err) {
+        next(err);
+    }
+};
+
+const getStatistics = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+
+    try {
+        const statistics =
+            await studentService.getStatistics();
+
+        res.status(200).json(statistics);
+
     } catch (err) {
         next(err);
     }
@@ -94,5 +136,6 @@ export default {
     create,
     replace,
     update,
-    remove
+    remove,
+    getStatistics
 };
